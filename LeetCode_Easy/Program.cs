@@ -12,12 +12,26 @@ namespace LeetCode_Easy
             this.next = next;
         }
     }
+    public class TreeNode
+    {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+        {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
 
     class Program
-    {        
+    {
+        static List<int> result = new List<int>();
+
         static void Main(string[] args)
         {
-           
+            
         }
 
 
@@ -326,6 +340,16 @@ namespace LeetCode_Easy
             }
             return a;
             
+            //   2
+            // 1 1            2
+            // 2
+
+            //   3
+            //1 1 1
+            //2 1             3
+            //1 2
+
+
             //   4
             //1 1 1 1
             //2 1 1
@@ -378,20 +402,21 @@ namespace LeetCode_Easy
             }
         } //83
 
-        public static void Merge(int[] nums1, int m, int[] nums2, int n) // 88
+        public void Merge(int[] nums1, int m, int[] nums2, int n) // 88
         {
             //Merge(new int[6] { 1, 2, 3, 0, 0, 0 }, 3, new int[3] { 2, 5, 6 }, 3);
             //Merge(new int[6] { 4, 5, 6, 0, 0, 0 }, 3, new int[3] { 1, 2, 3 }, 3);
             //Merge(new int[6] { 4, 0, 0, 0, 0, 0 }, 1, new int[5] { 1, 2, 3, 5, 6 }, 5);
             //Merge(new int[1] { 0 }, 0, new int[1] { 1 }, 1);
-            if (m == 0 &&  n != 0)
+
+            if (m == 0 && n != 0)
             {
                 for (int i = 0; i < nums1.Length; i++)
                 {
                     nums1[i] = nums2[i];
                 }
             }
-            else if(n != 0)
+            else if (n != 0)
             {
                 for (int i = 0; i < nums2.Length; i++)
                 {
@@ -403,9 +428,9 @@ namespace LeetCode_Easy
                             {
                                 nums1[j + 1] = nums1[j];
                                 nums1[j] = nums2[i];
-                            }                           
+                            }
                         }
-                        m++;                      
+                        m++;
                     }
                     else
                     {
@@ -414,7 +439,19 @@ namespace LeetCode_Easy
                         m++;
                     }
                 }
-            }           
+            }
         }
+
+        public static IList<int> InorderTraversal(TreeNode root)
+        {
+            if(root == null)
+                return result;
+
+            InorderTraversal(root.left);
+            result.Add(root.val);
+            InorderTraversal(root.right);
+
+            return result;
+        } // 94
     }
 }
