@@ -31,7 +31,23 @@ namespace LeetCode_Easy
 
         static void Main(string[] args)
         {
-            
+            TreeNode p = new TreeNode()
+            {
+                val = 1,
+                left = new TreeNode
+                {
+                    val = 2
+                }
+            };
+            TreeNode q = new TreeNode()
+            {
+                val = 1,
+                right = new TreeNode
+                {
+                    val = 2
+                }
+            };
+            IsSameTree(p, q);
         }
 
 
@@ -453,5 +469,22 @@ namespace LeetCode_Easy
 
             return result;
         } // 94
+
+        public static bool IsSameTree(TreeNode p, TreeNode q)
+        {
+            if (p == null && q == null)
+                return true;
+
+            if (p != null && q != null)
+            {
+                if (p.val == q.val)
+                {
+                    IsSameTree(p.left, q.left);
+                    IsSameTree(p.right, q.right);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
