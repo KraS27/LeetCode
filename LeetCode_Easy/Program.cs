@@ -486,5 +486,23 @@ namespace LeetCode_Easy
             }
             return false;
         }
+
+        public bool IsSymmetric(TreeNode root) // 101
+        {
+            return root is null ? false : IsSymmetricHelper(root.left, root.right);
+        }
+        public bool IsSymmetricHelper(TreeNode p, TreeNode q)
+        {
+
+            if (p == null || q == null)
+                return p?.val == q?.val;
+
+            if (p.val != q.val)
+                return false;
+
+            return IsSymmetricHelper(p.left, q.right) && IsSymmetricHelper(p.right, q.left);
+        }
+
+
     }
 }
