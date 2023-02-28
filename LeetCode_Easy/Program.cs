@@ -33,21 +33,20 @@ namespace LeetCode_Easy
         {
             TreeNode p = new TreeNode()
             {
-                val = 1,
+                val = 3,
                 left = new TreeNode
                 {
-                    val = 2
-                }
-            };
-            TreeNode q = new TreeNode()
-            {
-                val = 1,
+                    val = 9
+                },
                 right = new TreeNode
                 {
-                    val = 2
+                    val = 20,
+                    left = new TreeNode { val = 15 },
+                    right = new TreeNode { val = 7 }
                 }
             };
-            IsSameTree(p, q);
+            
+            var f = MaxDepth(p);
         }
 
 
@@ -470,7 +469,7 @@ namespace LeetCode_Easy
             return result;
         } // 94
 
-        public static bool IsSameTree(TreeNode p, TreeNode q)
+        public bool IsSameTree(TreeNode p, TreeNode q)
         {
             if (p == null && q == null)
                 return true;
@@ -503,6 +502,18 @@ namespace LeetCode_Easy
             return IsSymmetricHelper(p.left, q.right) && IsSymmetricHelper(p.right, q.left);
         }
 
+        public static int MaxDepth(TreeNode root)
+        {
+            if (root is null)
+                return 0;
 
+            var left = MaxDepth(root.left);
+            var right = MaxDepth(root.right);
+
+            int res = 1 + Math.Max(left, right);
+
+            return res;
+        }
+        
     }
 }
