@@ -31,24 +31,34 @@ namespace LeetCode_Easy
 
         static void Main(string[] args)
         {
-            TreeNode p = new TreeNode()
-            {
-                val = 3,
-                left = new TreeNode
-                {
-                    val = 9
-                },
-                right = new TreeNode
-                {
-                    val = 20,
-                    left = new TreeNode { val = 15 },
-                    right = new TreeNode { val = 7 }
-                }
-            };
-            
-            var f = MaxDepth(p);
+            var s = BinarySearch(new int[] { -1, 0, 4, 6, 9, 15, 24, 48 }, 24);
         }
+         
+        public static int BinarySearch(int[] nums, int number)
+        {
+            int left = 0;
+            int right = nums.Length - 1;
 
+            while(left <= right)
+            {
+                int mid = left + (right - left) / 2;
+
+                if(number == nums[mid])
+                {
+                    return mid;
+                }
+                else if(number < nums[mid])
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    left= mid + 1;
+                }
+            }
+
+            return 0;
+        }
 
         public int[] TwoSum(int[] nums, int target) // 1
         {
@@ -502,7 +512,7 @@ namespace LeetCode_Easy
             return IsSymmetricHelper(p.left, q.right) && IsSymmetricHelper(p.right, q.left);
         }
 
-        public static int MaxDepth(TreeNode root)
+        public int MaxDepth(TreeNode root)
         {
             if (root is null)
                 return 0;
@@ -513,7 +523,24 @@ namespace LeetCode_Easy
             int res = 1 + Math.Max(left, right);
 
             return res;
-        }
+        } // 104
+
+        public static TreeNode SortedArrayToBST(int[] nums)
+        {
+            return SortedArrayToBSTHelper(0, nums.Length - 1);
+
+            TreeNode SortedArrayToBSTHelper(int left, int right)
+            {
+                if (left > right)
+                {
+                    return null;
+                }
+                int mid = left + (right - left) / 2;
+
+                return new TreeNode(nums[mid], SortedArrayToBSTHelper(left, mid - 1), SortedArrayToBSTHelper(mid + 1, right));
+            }
+        } // 108
+
         
     }
 }
