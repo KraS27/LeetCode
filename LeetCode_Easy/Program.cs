@@ -28,13 +28,37 @@ namespace LeetCode_Easy
     class Program
     {
         static List<int> result = new List<int>();
+        static bool isBalanced = true;
 
         static void Main(string[] args)
         {
-            var s = BinarySearch(new int[] { -1, 0, 4, 6, 9, 15, 24, 48 }, 24);
+            TreeNode root = new TreeNode()
+            {
+                val = 1,
+                left = new TreeNode
+                {
+                    val = 2,
+                    left = new TreeNode
+                    {
+                        val = 3,
+                        left = new TreeNode { val = 4 }
+                    }
+                },
+                right = new TreeNode
+                {
+                    val = 2,
+                    right = new TreeNode
+                    {
+                        val = 3,
+                        right = new TreeNode { val = 4 }
+                    }
+                }
+            };
+
+            var s = IsBalanced(root);
         }
          
-        public static int BinarySearch(int[] nums, int number)
+        public int BinarySearch(int[] nums, int number)
         {
             int left = 0;
             int right = nums.Length - 1;
@@ -410,7 +434,7 @@ namespace LeetCode_Easy
             //Result: 5, 8, 13 - Fibonacci
         }
 
-        public static ListNode DeleteDuplicates(ListNode head)
+        public ListNode DeleteDuplicates(ListNode head)
         {           
             if (head == null || head.next == null)
                 return head;
@@ -467,7 +491,7 @@ namespace LeetCode_Easy
             }
         }
 
-        public static IList<int> InorderTraversal(TreeNode root)
+        public IList<int> InorderTraversal(TreeNode root)
         {
             if(root == null)
                 return result;
@@ -512,7 +536,7 @@ namespace LeetCode_Easy
             return IsSymmetricHelper(p.left, q.right) && IsSymmetricHelper(p.right, q.left);
         }
 
-        public int MaxDepth(TreeNode root)
+        public static int MaxDepth(TreeNode root)
         {
             if (root is null)
                 return 0;
@@ -525,7 +549,7 @@ namespace LeetCode_Easy
             return res;
         } // 104
 
-        public static TreeNode SortedArrayToBST(int[] nums)
+        public TreeNode SortedArrayToBST(int[] nums)
         {
             return SortedArrayToBSTHelper(0, nums.Length - 1);
 
@@ -540,7 +564,29 @@ namespace LeetCode_Easy
                 return new TreeNode(nums[mid], SortedArrayToBSTHelper(left, mid - 1), SortedArrayToBSTHelper(mid + 1, right));
             }
         } // 108
+       
+        public static bool IsBalanced(TreeNode root)
+        {
+            IsBalancedHelper(root);
+            return isBalanced;
+        }
 
-        
+        private static int IsBalancedHelper(TreeNode root)
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+
+            int left = 1 + IsBalancedHelper(root.left);
+            int right = 1 + IsBalancedHelper(root.right);
+
+            if (Math.Abs(right - left) > 1)
+            {
+                isBalanced = false;
+            }
+
+            return Math.Max(left, right);
+        }
     }
 }
