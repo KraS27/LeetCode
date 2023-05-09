@@ -32,30 +32,7 @@ namespace LeetCode_Easy
 
         static void Main(string[] args)
         {
-            TreeNode root = new TreeNode()
-            {
-                val = 1,
-                left = new TreeNode
-                {
-                    val = 2,
-                    left = new TreeNode
-                    {
-                        val = 3,
-                        left = new TreeNode { val = 4 }
-                    }
-                },
-                right = new TreeNode
-                {
-                    val = 2,
-                    right = new TreeNode
-                    {
-                        val = 3,
-                        right = new TreeNode { val = 4 }
-                    }
-                }
-            };
-
-            var s = IsBalanced(root);
+            GetConcatenation(new int[] { 1, 2, 1 });
         }
          
         public int BinarySearch(int[] nums, int number)
@@ -536,7 +513,7 @@ namespace LeetCode_Easy
             return IsSymmetricHelper(p.left, q.right) && IsSymmetricHelper(p.right, q.left);
         }
 
-        public static int MaxDepth(TreeNode root)
+        public int MaxDepth(TreeNode root)
         {
             if (root is null)
                 return 0;
@@ -564,29 +541,36 @@ namespace LeetCode_Easy
                 return new TreeNode(nums[mid], SortedArrayToBSTHelper(left, mid - 1), SortedArrayToBSTHelper(mid + 1, right));
             }
         } // 108
-       
-        public static bool IsBalanced(TreeNode root)
-        {
-            IsBalancedHelper(root);
-            return isBalanced;
-        }
 
-        private static int IsBalancedHelper(TreeNode root)
+        public bool IsBalanced(TreeNode root)
         {
             if (root == null)
-            {
+                return true;
+
+            if (Math.Abs(IsBalancedHelper(root.left) - IsBalancedHelper(root.right)) <= 1)
+                return true && IsBalanced(root.left) && IsBalanced(root.right);
+            else
+                return false;
+        }
+        public int IsBalancedHelper(TreeNode node)
+        {
+            if (node == null)
                 return 0;
-            }
+            return 1 + Math.Max(IsBalancedHelper(node.left), IsBalancedHelper(node.right));
+        }
 
-            int left = 1 + IsBalancedHelper(root.left);
-            int right = 1 + IsBalancedHelper(root.right);
 
-            if (Math.Abs(right - left) > 1)
+        public static int[] GetConcatenation(int[] nums)
+        {
+            int[] ans = new int[2 * nums.Length];
+
+            for (int i = 0; i < ans.Length; i++)
             {
-                isBalanced = false;
+                ans[i] = nums[i];
+                ans[i + nums.Length] = nums[i];
             }
 
-            return Math.Max(left, right);
+            return ans;
         }
     }
 }
