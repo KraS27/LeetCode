@@ -559,8 +559,7 @@ namespace LeetCode_Easy
             return 1 + Math.Max(IsBalancedHelper(node.left), IsBalancedHelper(node.right));
         }
 
-
-        public static int[] GetConcatenation(int[] nums)
+        public  int[] GetConcatenation(int[] nums)
         {
             int[] ans = new int[2 * nums.Length];
 
@@ -571,6 +570,19 @@ namespace LeetCode_Easy
             }
 
             return ans;
-        } //1929. Concatenation of Array
+        } //1929. Concatenation of Array     
+        
+        public int[] BuildArray(int[] nums) // 1920. Build Array from Permutation
+        {
+            int[] ans = new int[nums.Length];
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                ans[i] = nums[nums[i]];
+            }
+
+            return ans;
+        }
+        
     }
 }
