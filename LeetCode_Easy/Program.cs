@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata.Ecma335;
+using System.Text;
 
 namespace LeetCode_Easy
 {
@@ -32,7 +33,7 @@ namespace LeetCode_Easy
 
         static void Main(string[] args)
         {
-            GetConcatenation(new int[] { 1, 2, 1 });
+            var test = DefangIPaddr("255.100.50.0");
         }
          
         public int BinarySearch(int[] nums, int number)
@@ -583,6 +584,20 @@ namespace LeetCode_Easy
 
             return ans;
         }
-        
+
+        public static string DefangIPaddr(string address)// 1108. Defanging an IP Address
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < address.Length; i++)
+            {
+                if (address[i] == '.')
+                    sb.Append(new char[] { '[', address[i], ']' });
+                else
+                    sb.Append(address[i]);
+            }
+           
+            return sb.ToString();
+        }
     }
 }
