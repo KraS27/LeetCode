@@ -33,7 +33,7 @@ namespace LeetCode_Easy
 
         static void Main(string[] args)
         {
-            var test = DefangIPaddr("255.100.50.0");
+            var test = Shuffle(new int[] { 2, 5, 1, 3, 4, 7 }, 3);
         }
          
         public int BinarySearch(int[] nums, int number)
@@ -585,7 +585,7 @@ namespace LeetCode_Easy
             return ans;
         }
 
-        public static string DefangIPaddr(string address)// 1108. Defanging an IP Address
+        public string DefangIPaddr(string address)// 1108. Defanging an IP Address
         {
             StringBuilder sb = new StringBuilder();
 
@@ -598,6 +598,22 @@ namespace LeetCode_Easy
             }
            
             return sb.ToString();
+        }
+
+        public static int[] Shuffle(int[] nums, int n) //1470. Shuffle the Array
+        {
+            int[] shuffleArray = new int[nums.Length];
+
+            for (int i = 0, j = 0; i < nums.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    shuffleArray[i] = nums[j];
+                    shuffleArray[i + 1] = nums[j + n];
+                    j++;
+                }
+            }
+            return shuffleArray;
         }
     }
 }
