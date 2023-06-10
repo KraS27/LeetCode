@@ -31,7 +31,7 @@ namespace LeetCode_Easy
         
         static void Main(string[] args)
         {
-            
+            NumIdenticalPairs(new int[] {1, 2, 3, 1, 1, 3});
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -534,6 +534,21 @@ namespace LeetCode_Easy
             }
 
             return jewelsCount;
+        }
+
+        public static int NumIdenticalPairs(int[] nums) // 1512. Number of Good Pairs
+        {
+            int result = 0;
+
+            for (int i = 0; i < nums.Length - 1; i++)
+            {
+                for (int j = i + 1; j < nums.Length; j++)
+                {
+                    if (nums[i] == nums[j])
+                        result++;
+                }                                         
+            }
+            return result;
         }
     }
 }
