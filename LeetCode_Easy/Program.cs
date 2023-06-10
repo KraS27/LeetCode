@@ -523,6 +523,17 @@ namespace LeetCode_Easy
             return shuffleArray;
         }
 
+        public int NumJewelsInStones(string jewels, string stones) // 771. Jewels and Stones
+        {
+            int jewelsCount = 0;
 
+            for (int i = 0; i < stones.Length; i++)
+            {
+                if (jewels.Contains(stones[i]))
+                        jewelsCount++;                      
+            }
+
+            return jewelsCount;
+        }
     }
 }
