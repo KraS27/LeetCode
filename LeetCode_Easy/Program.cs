@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata.Ecma335;
+using System.Security.Principal;
 using System.Text;
 
 namespace LeetCode_Easy
@@ -31,7 +32,11 @@ namespace LeetCode_Easy
         
         static void Main(string[] args)
         {
-            NumIdenticalPairs(new int[] {1, 2, 3, 1, 1, 3});
+            MaximumWealth(new int[][] {
+                new int[]{ 1,5 },
+                new int[]{ 7,3 },
+                new int[]{ 3,5 },
+            });
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -549,6 +554,26 @@ namespace LeetCode_Easy
                 }                                         
             }
             return result;
+        }
+
+        public static int MaximumWealth(int[][] accounts) //1672. Richest Customer Wealth
+        {
+            int greatestWealth = 0;
+            int customerWelth = 0;
+
+            for (int i = 0; i < accounts.Length; i++)
+            {
+                customerWelth = 0;
+
+                for (int j = 0; j < accounts[i].Length; j++)
+                {
+                    customerWelth += accounts[i][j];
+                }
+
+                if (customerWelth > greatestWealth)
+                    greatestWealth = customerWelth;
+            }           
+            return greatestWealth;
         }
     }
 }
