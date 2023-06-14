@@ -1,42 +1,51 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using System.Security.Principal;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LeetCode_Easy
 {
-    public class ListNode
-    {
-        public int val;
-        public ListNode next;
-        public ListNode(int val = 0, ListNode next = null)
-        {
-            this.val = val;
-            this.next = next;
-        }
-    }
-    public class TreeNode
-    {
-        public int val;
-        public TreeNode left;
-        public TreeNode right;
-        public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
-        {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     class Program
     {      
         
         static void Main(string[] args)
         {
-            MaximumWealth(new int[][] {
-                new int[]{ 1,5 },
-                new int[]{ 7,3 },
-                new int[]{ 3,5 },
-            });
+            ListNode treeNode = new ListNode()
+            {
+                val = 0,
+                next = new ListNode
+                {
+                    val = 1,
+                    next = new ListNode
+                    {
+                        val = 0,
+                        next = new ListNode
+                        {
+                            val = 3,
+                            next = new ListNode
+                            {
+                                val = 0,
+                                next = new ListNode
+                                {
+                                    val = 2,
+                                    next = new ListNode
+                                    {
+                                        val = 2,
+                                        next = new ListNode
+                                        {
+                                            val = 0                                          
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            };
+
+            ListNodeTask listNodeTask = new ListNodeTask();
+            var f = listNodeTask.MergeNodes(treeNode);
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -169,26 +178,7 @@ namespace LeetCode_Easy
             if (stack.Count == 0) { return true; }
             else { return false; }
         } // 20
-      
-        public ListNode MergeTwoLists(ListNode list1, ListNode list2)
-        {
-
-            if (list1 == null) return list2;
-            if (list2 == null) return list1;
-            if (list1 == null && list2 == null) return null;
-
-            if (list1.val <= list2.val)
-            {
-                list1.next = MergeTwoLists(list1.next, list2);
-                return list1;
-            }
-            else
-            {
-                list2.next = MergeTwoLists(list2.next, list1);
-                return list2;
-            }
-        } // 21
-
+            
         public int RemoveDuplicates(int[] nums)
         {
             if (nums.Length == 0) return 0;
@@ -414,24 +404,7 @@ namespace LeetCode_Easy
 
             //Result: 5, 8, 13 - Fibonacci
         }
-
-        public ListNode DeleteDuplicates(ListNode head)
-        {           
-            if (head == null || head.next == null)
-                return head;
-
-            if (head.val == head.next.val)
-            {
-                head.next = head.next.next;
-                return DeleteDuplicates(head);
-            }
-            else
-            {
-                head.next = DeleteDuplicates(head.next);
-                return head;
-            }
-        } //83
-
+      
         public void Merge(int[] nums1, int m, int[] nums2, int n) // 88
         {
             //Merge(new int[6] { 1, 2, 3, 0, 0, 0 }, 3, new int[3] { 2, 5, 6 }, 3);

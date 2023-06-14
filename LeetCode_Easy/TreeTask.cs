@@ -1,13 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LeetCode_Easy
 {
+    public class TreeNode
+    {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+        {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     public class TreeTask
-    {       
+    {
+        int _sum = 0;
         static List<int> result = new List<int>();
 
         public IList<int> InorderTraversal(TreeNode root)
@@ -99,6 +114,30 @@ namespace LeetCode_Easy
             if (node == null)
                 return 0;
             return 1 + Math.Max(IsBalancedHelper(node.left), IsBalancedHelper(node.right));
+        }
+
+        public int DeepestLeavesSum(TreeNode root)
+        {
+            int maxDepth = MaxDepth(root) - 1;
+
+            DeepestLeavesSumHelper(root, maxDepth, 0);
+
+            return _sum;
+        }       
+        public void DeepestLeavesSumHelper(TreeNode root, int maxDepth, int currentDepth)
+        {
+            if (root == null)
+                return ;
+
+            if (root.right == null && root.left == null && currentDepth == maxDepth)
+            {
+                _sum += root.val;
+            }          
+            else
+            {
+                DeepestLeavesSumHelper(root.left, maxDepth, currentDepth + 1);
+                DeepestLeavesSumHelper(root.right, maxDepth, currentDepth + 1);
+            }           
         }
     }
 }
