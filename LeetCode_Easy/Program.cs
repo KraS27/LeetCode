@@ -10,42 +10,7 @@ namespace LeetCode_Easy
         
         static void Main(string[] args)
         {
-            ListNode treeNode = new ListNode()
-            {
-                val = 0,
-                next = new ListNode
-                {
-                    val = 1,
-                    next = new ListNode
-                    {
-                        val = 0,
-                        next = new ListNode
-                        {
-                            val = 3,
-                            next = new ListNode
-                            {
-                                val = 0,
-                                next = new ListNode
-                                {
-                                    val = 2,
-                                    next = new ListNode
-                                    {
-                                        val = 2,
-                                        next = new ListNode
-                                        {
-                                            val = 0                                          
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                }
-            };
-
-            ListNodeTask listNodeTask = new ListNodeTask();
-            var f = listNodeTask.MergeNodes(treeNode);
+            var tmp = Interpret("G()(al)");
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -547,6 +512,22 @@ namespace LeetCode_Easy
                     greatestWealth = customerWelth;
             }           
             return greatestWealth;
+        }
+
+        public string Interpret(string command) // 1678. Goal Parser Interpretation
+        {
+
+            StringBuilder result = new();
+
+            for (int i = 0; i < command.Length; i++)
+            {
+                if (command[i] == '(' && command[i + 1] == ')')
+                    result.Append('o');
+                else if (command[i] != '(' && command[i] != ')')
+                    result.Append(command[i]);
+            }
+            
+            return result.ToString();
         }
     }
 }
