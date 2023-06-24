@@ -22,7 +22,7 @@ namespace LeetCode_Easy
 
     public class TreeTask
     {
-        int _sum = 0;
+        int _sum = 0;      
         static List<int> result = new List<int>();
 
         public IList<int> InorderTraversal(TreeNode root)
@@ -138,6 +138,32 @@ namespace LeetCode_Easy
                 DeepestLeavesSumHelper(root.left, maxDepth, currentDepth + 1);
                 DeepestLeavesSumHelper(root.right, maxDepth, currentDepth + 1);
             }           
+        }
+
+        public TreeNode BstToGst(TreeNode root)
+        {
+            if (root == null)
+                return root;
+           
+            BstToGst(root.right);
+            _sum += root.val;
+            root.val = _sum;
+            BstToGst(root.left);
+
+            return root;
+        }
+
+        public TreeNode GetTargetCopy(TreeNode original, TreeNode cloned, TreeNode target)
+        {
+            if (cloned == null)
+                return null;
+
+            if (cloned.val == target.val)
+                return cloned;
+
+             GetTargetCopy(original, cloned.left, target);
+            return   GetTargetCopy(original, cloned.right, target);
+          
         }
     }
 }

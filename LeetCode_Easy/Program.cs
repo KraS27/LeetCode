@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Principal;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
@@ -6,11 +7,76 @@ using static System.Net.Mime.MediaTypeNames;
 namespace LeetCode_Easy
 {
     class Program
-    {      
-        
+    {
+        static TreeNode testTree = new TreeNode()
+        {
+            val = 7,
+            left = new TreeNode()
+            {
+                val = 4,
+            },
+            right = new TreeNode()
+            {
+                val = 3,
+                left = new TreeNode()
+                {
+                    val = 6,
+                },
+                right = new TreeNode()
+                {
+                    val = 19
+                }
+            }
+        };
+
         static void Main(string[] args)
         {
-            var tmp = Interpret("G()(al)");
+            ListNodeTask task = new ListNodeTask();
+            ListNode l1 = new ListNode
+            {
+                val = 9,
+                next = new ListNode
+                {
+                    val = 9,
+                    next = new ListNode
+                    {
+                        val = 9,                       
+                        next = new ListNode
+                        {
+                            val = 9,
+                            next = new ListNode
+                            {
+                                val = 9,
+                                next = new ListNode
+                                {
+                                    val = 9,
+                                    next = new ListNode
+                                    {
+                                        val = 9,
+                                    }
+                                }
+                            }                            
+                        }
+                    }
+                }
+            };
+            ListNode l2 = new ListNode
+            {
+                val = 9,
+                next = new ListNode
+                {
+                    val = 9,
+                    next = new ListNode
+                    {
+                        val = 9,
+                        next = new ListNode
+                        {
+                            val = 9,
+                        }
+                    }
+                }
+            };
+            var fs = task.AddTwoNumbers(l1, l2);
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -528,6 +594,121 @@ namespace LeetCode_Easy
             }
             
             return result.ToString();
+        }
+
+        public static int SubtractProductAndSum(int n)
+        {
+            int product = 1;
+            int summ = 0;
+
+            while(n > 0)
+            {
+                product *= n % 10;
+                summ += n % 10;
+                n /= 10;
+            }
+           
+            return product - summ;
+        }
+
+        public static int MinimumSum(int num)
+        {
+            //2934
+            HashSet<string> arr = new();
+            int min = int.MaxValue;
+
+            string numstr = num.ToString();
+
+            for (int i = 0; i < numstr.Length; i++)
+            {
+                for (int j = 0; j < numstr.Length; j++)
+                {
+                    if (numstr[i] != numstr[j])
+                    {
+                        string tmp = numstr[i].ToString() + numstr[j];
+                        arr.Add(tmp);
+                    }              
+                }
+            }
+           
+            foreach (string i in arr)
+            {
+                foreach(string j in arr)
+                {
+                    if(i != j)
+                    {
+                        int tmp = int.Parse(i) + int.Parse(j);
+
+                        if (tmp < min)
+                            min = tmp;
+                    }                   
+                }
+            }
+
+            return min;
+        }
+
+        public static int[] MinOperations(string boxes)
+        {
+            int[] result = new int[boxes.Length];
+
+            for (int i = 0; i < boxes.Length; i++)
+            {
+                int tmp = 0;
+
+                for (int j = 0; j < boxes.Length; j++)
+                {
+                    if (boxes[j] == '1' && i != j)
+                        tmp += Math.Abs(j - i);
+                }
+
+                result[i] = tmp;
+            }
+
+            return result;
+        }
+
+        public static int[][] SortTheStudents(int[][] score, int k)
+        {           
+            return score.OrderByDescending(x => x[k]).ToArray();
+        }
+
+        public static IList<IList<int>> FindMatrix(int[] nums)
+        {           
+            IList<IList<int>> result = new List<IList<int>>();
+            var list = nums.ToList();
+
+            while(list.Count > 0)
+            {
+                List<int> tmp = new(); 
+                foreach (var x in list.ToList())
+                {
+                    if (!tmp.Contains(x))
+                    {
+                        tmp.Add(x);
+                        list.Remove(x);
+                    }                       
+                }
+                result.Add(tmp);
+            }
+        
+            return result;
+        }
+
+        public static string RestoreString(string s, int[] indices)
+        {
+            Dictionary<int, char> dictator = new();
+            StringBuilder sb = new();
+
+            for (int i = 0; i < indices.Length; i++)
+            {
+                dictator.Add(indices[i], s[i]);
+            }
+            for (int i = 0; i < indices.Length; i++)
+            {
+                sb.Append(dictator[i]);
+            }
+            return sb.ToString();
         }
     }
 }

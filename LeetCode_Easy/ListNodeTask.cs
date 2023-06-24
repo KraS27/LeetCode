@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -76,6 +77,32 @@ namespace LeetCode_Easy
             }
 
             return result;          
+        }
+       
+        public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        {           
+            string left = ReturnConcatSumm(l1);
+            string right = ReturnConcatSumm(l2);
+
+            string summ = (int.Parse(left) + int.Parse(right)).ToString();
+            
+            return ConvertStringToLN(summ, summ.Length - 1);
+        }             
+        
+        private ListNode ConvertStringToLN(string str, int i)
+        {
+            if (i < 0)
+                return null;
+
+            return new ListNode(str[i] - '0', ConvertStringToLN(str, i - 1)); 
+        }
+
+        private string ReturnConcatSumm(ListNode list)
+        {
+            if (list == null)
+                return null;
+                               
+            return  ReturnConcatSumm(list.next) + list.val.ToString();
         }
     }
 }
