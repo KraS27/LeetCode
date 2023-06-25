@@ -80,29 +80,29 @@ namespace LeetCode_Easy
         }
        
         public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
-        {           
-            string left = ReturnConcatSumm(l1);
-            string right = ReturnConcatSumm(l2);
-
-            string summ = (int.Parse(left) + int.Parse(right)).ToString();
-            
-            return ConvertStringToLN(summ, summ.Length - 1);
+        {
+            ListNode result = new ListNode();
+            ListNode head = result;
+            int sum = 0;
+            while (l1 != null || l2 != null || sum > 0) // to keep running if we hava a value in l1, l2 or carry
+            {
+                // two if statments because l1 and l2 can be of different sizes
+                if (l1 != null)
+                {
+                    sum += l1.val;
+                    l1 = l1.next;
+                }
+                if (l2 != null)
+                {
+                    sum += l2.val;
+                    l2 = l2.next;
+                }
+                result.next = new ListNode(sum % 10); //digit
+                sum /= 10; //carry
+                result = result.next;
+            }
+            return head.next;
         }             
-        
-        private ListNode ConvertStringToLN(string str, int i)
-        {
-            if (i < 0)
-                return null;
-
-            return new ListNode(str[i] - '0', ConvertStringToLN(str, i - 1)); 
-        }
-
-        private string ReturnConcatSumm(ListNode list)
-        {
-            if (list == null)
-                return null;
-                               
-            return  ReturnConcatSumm(list.next) + list.val.ToString();
-        }
+             
     }
 }

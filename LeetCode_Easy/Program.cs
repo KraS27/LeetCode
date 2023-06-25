@@ -34,49 +34,30 @@ namespace LeetCode_Easy
             ListNodeTask task = new ListNodeTask();
             ListNode l1 = new ListNode
             {
-                val = 9,
+                val = 2,
                 next = new ListNode
                 {
-                    val = 9,
+                    val = 4,
                     next = new ListNode
                     {
-                        val = 9,                       
-                        next = new ListNode
-                        {
-                            val = 9,
-                            next = new ListNode
-                            {
-                                val = 9,
-                                next = new ListNode
-                                {
-                                    val = 9,
-                                    next = new ListNode
-                                    {
-                                        val = 9,
-                                    }
-                                }
-                            }                            
-                        }
+                        val = 3,
                     }
                 }
             };
             ListNode l2 = new ListNode
             {
-                val = 9,
+                val = 5,
                 next = new ListNode
                 {
-                    val = 9,
+                    val = 6,
                     next = new ListNode
                     {
-                        val = 9,
-                        next = new ListNode
-                        {
-                            val = 9,
-                        }
+                        val = 4
                     }
                 }
             };
-            var fs = task.AddTwoNumbers(l1, l2);
+
+            var f = LengthOfLongestSubstring("pwwkew");
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -709,6 +690,27 @@ namespace LeetCode_Easy
                 sb.Append(dictator[i]);
             }
             return sb.ToString();
+        }
+
+        public static int LengthOfLongestSubstring(string s)
+        {
+            int result = 0;
+            
+            for (int i = 0; i < s.Length; i++)
+            {
+                string tmp = "";
+                for (int j = i; j < s.Length; j++)
+                {
+                    if (!tmp.Contains(s[j]))
+                        tmp += s[j];
+                    else
+                        break;
+                }
+                if(tmp.Length > result)
+                    result = tmp.Length;              
+            }
+
+            return result;
         }
     }
 }
