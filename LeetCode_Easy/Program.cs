@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
@@ -32,32 +34,25 @@ namespace LeetCode_Easy
         static void Main(string[] args)
         {
             ListNodeTask task = new ListNodeTask();
-            ListNode l1 = new ListNode
+            ListNode test = new ListNode
             {
-                val = 2,
+                val = 5,
                 next = new ListNode
                 {
                     val = 4,
                     next = new ListNode
                     {
-                        val = 3,
-                    }
-                }
-            };
-            ListNode l2 = new ListNode
-            {
-                val = 5,
-                next = new ListNode
-                {
-                    val = 6,
-                    next = new ListNode
-                    {
-                        val = 4
+                        val = 2,
+                        next = new ListNode
+                        {
+                            val = 1,                          
+                        }
                     }
                 }
             };
 
-            var f = LengthOfLongestSubstring("pwwkew");
+
+            var d = NumberOfBeams(new string[] { "011001", "000000", "010100", "001000" });
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -457,7 +452,7 @@ namespace LeetCode_Easy
             }
         }
 
-        public  int[] GetConcatenation(int[] nums)
+        public int[] GetConcatenation(int[] nums)
         {
             int[] ans = new int[2 * nums.Length];
 
@@ -497,7 +492,7 @@ namespace LeetCode_Easy
             return sb.ToString();
         }
 
-        public static int[] Shuffle(int[] nums, int n) //1470. Shuffle the Array
+        public int[] Shuffle(int[] nums, int n) //1470. Shuffle the Array
         {
             int[] shuffleArray = new int[nums.Length];
 
@@ -526,7 +521,7 @@ namespace LeetCode_Easy
             return jewelsCount;
         }
 
-        public static int NumIdenticalPairs(int[] nums) // 1512. Number of Good Pairs
+        public int NumIdenticalPairs(int[] nums) // 1512. Number of Good Pairs
         {
             int result = 0;
 
@@ -541,7 +536,7 @@ namespace LeetCode_Easy
             return result;
         }
 
-        public static int MaximumWealth(int[][] accounts) //1672. Richest Customer Wealth
+        public int MaximumWealth(int[][] accounts) //1672. Richest Customer Wealth
         {
             int greatestWealth = 0;
             int customerWelth = 0;
@@ -577,7 +572,7 @@ namespace LeetCode_Easy
             return result.ToString();
         }
 
-        public static int SubtractProductAndSum(int n)
+        public int SubtractProductAndSum(int n)
         {
             int product = 1;
             int summ = 0;
@@ -592,7 +587,7 @@ namespace LeetCode_Easy
             return product - summ;
         }
 
-        public static int MinimumSum(int num)
+        public int MinimumSum(int num)
         {
             //2934
             HashSet<string> arr = new();
@@ -629,7 +624,7 @@ namespace LeetCode_Easy
             return min;
         }
 
-        public static int[] MinOperations(string boxes)
+        public int[] MinOperations(string boxes)
         {
             int[] result = new int[boxes.Length];
 
@@ -649,12 +644,12 @@ namespace LeetCode_Easy
             return result;
         }
 
-        public static int[][] SortTheStudents(int[][] score, int k)
+        public int[][] SortTheStudents(int[][] score, int k)
         {           
             return score.OrderByDescending(x => x[k]).ToArray();
         }
 
-        public static IList<IList<int>> FindMatrix(int[] nums)
+        public IList<IList<int>> FindMatrix(int[] nums)
         {           
             IList<IList<int>> result = new List<IList<int>>();
             var list = nums.ToList();
@@ -676,7 +671,7 @@ namespace LeetCode_Easy
             return result;
         }
 
-        public static string RestoreString(string s, int[] indices)
+        public string RestoreString(string s, int[] indices)
         {
             Dictionary<int, char> dictator = new();
             StringBuilder sb = new();
@@ -692,25 +687,136 @@ namespace LeetCode_Easy
             return sb.ToString();
         }
 
-        public static int LengthOfLongestSubstring(string s)
+        public int LengthOfLongestSubstring(string s)
         {
-            int result = 0;
-            
-            for (int i = 0; i < s.Length; i++)
+            var charSet = new HashSet<char>();
+            int left = 0, right = 0, maxLength = 0;
+            while (right < s.Length)
             {
-                string tmp = "";
-                for (int j = i; j < s.Length; j++)
+                if (!charSet.Contains(s[right]))
                 {
-                    if (!tmp.Contains(s[j]))
-                        tmp += s[j];
-                    else
-                        break;
+                    charSet.Add(s[right]);
+                    right++;
+                    maxLength = Math.Max(maxLength, charSet.Count);
                 }
-                if(tmp.Length > result)
-                    result = tmp.Length;              
+                else
+                {
+                    charSet.Remove(s[left]);
+                    left++;
+                }
+            }
+            return maxLength;
+        }
+
+        public int[] PivotArray(int[] nums, int pivot)
+        {
+            List<int> result = new();
+            for (int i = 0, l = 0; i < nums.Length; i++)
+            {
+                if (nums[i] < pivot)               
+                    result.Insert(l++, nums[i]);                           
+                else if (nums[i] > pivot)
+                    result.Add(nums[i]);                                 
+                else 
+                    result.Insert(l, nums[i]);
+            }
+            return result.ToArray();
+        }
+
+        public int GarbageCollection(string[] garbage, int[] travel)
+        {
+            int result = 0;            
+            Dictionary<char, int> lastGarbageHouse = new()
+            {
+                { 'M', 0 },
+                { 'P', 0 },
+                { 'G', 0 },
+            };
+
+            for (int i = 0; i < garbage.Length; i++)
+            {
+                result += garbage[i].Length;
+                foreach (char g in garbage[i])
+                {                    
+                    lastGarbageHouse[g] = i;
+                }                             
+            }        
+
+            foreach (int g in lastGarbageHouse.Values)
+            {
+                for (int i = 0; i < g; i++)
+                {
+                    result += travel[i];
+                }
             }
 
             return result;
         }
+
+        public int MinOperations(int n)
+        {
+            int[] arr = new int[n];
+            int target = 0;
+            int result = 0;
+            for (int i = 0; i < n; i++)
+            {
+                arr[i] = (2 * i) + 1;
+                target += arr[i];
+            }
+           
+            int x = arr.Length - 1;
+            int y = 0; 
+            target = target / n;
+            
+            while (x != y)
+            {
+                if(arr[x] != target)
+                {
+                    arr[x]--;                   
+                    result++;
+                }
+                else if(arr[x] == target)
+                {
+                    x--;
+                }
+
+                if (x == y)
+                    break;
+
+                if (arr[y] != target)
+                {
+                    arr[y]++;                    
+                    result++;
+                }
+                else if(arr[y] == target)
+                {
+                    y++;
+                }
+            }
+
+            return result / 2;
+        }
+
+        public static int NumberOfBeams(string[] bank)
+        {
+            int result = 0;
+            int laserCount = 0;
+            int laserCountAfter = 0;
+            for (int i = 0; i < bank.Length - 1; i++)
+            {               
+                laserCountAfter = bank[i + 1].Split('1').Count() - 1;
+                int currentLaserCount = bank[i].Split('1').Count() - 1;
+
+                if (currentLaserCount != 0)
+                    laserCount = currentLaserCount;
+
+                if (laserCountAfter != 0)
+                {                   
+                    result += laserCount * laserCountAfter;
+                }                
+            }
+
+            return result;
+        }      
     }
 }

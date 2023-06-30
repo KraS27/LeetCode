@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LeetCode_Easy
 {
@@ -102,7 +103,27 @@ namespace LeetCode_Easy
                 result = result.next;
             }
             return head.next;
-        }             
-             
+        }
+
+        List<int> elements = new();
+        public int PairSum(ListNode head)
+        {
+            int maxSumm = 0;
+
+            while (head != null)
+            {
+                elements.Add(head.val);
+                head = head.next;
+            }
+
+            for (int i = 0; i < elements.Count / 2; i++)
+            {
+                int summ = elements[i] + elements[elements.Count - i - 1];
+                if (summ > maxSumm)
+                    maxSumm = summ;
+            }
+
+            return maxSumm;
+        }
     }
 }
