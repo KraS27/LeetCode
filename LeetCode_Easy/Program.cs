@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Text;
+using static System.Formats.Asn1.AsnWriter;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace LeetCode_Easy
@@ -33,8 +35,9 @@ namespace LeetCode_Easy
 
         static void Main(string[] args)
         {
-            ListNodeTask task = new ListNodeTask();
-            ListNode test = new ListNode
+            ListNodeTask listTask = new ListNodeTask();
+            TreeTask treeTask = new TreeTask();
+            ListNode testList = new ListNode
             {
                 val = 5,
                 next = new ListNode
@@ -45,14 +48,29 @@ namespace LeetCode_Easy
                         val = 2,
                         next = new ListNode
                         {
-                            val = 1,                          
+                            val = 1,
+                        }
+                    }
+                }
+            };
+            var testTree = new TreeNode
+            {
+                val = 1,
+                right = new TreeNode
+                {
+                    val = 2,
+                    right = new TreeNode
+                    {
+                        val = 3,
+                        right = new TreeNode
+                        {
+                            val = 4,
                         }
                     }
                 }
             };
 
-
-            var d = NumberOfBeams(new string[] { "011001", "000000", "010100", "001000" });
+            var t = MinSteps("leetcode", "practice");
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -60,21 +78,21 @@ namespace LeetCode_Easy
             int left = 0;
             int right = nums.Length - 1;
 
-            while(left <= right)
+            while (left <= right)
             {
                 int mid = left + (right - left) / 2;
 
-                if(number == nums[mid])
+                if (number == nums[mid])
                 {
                     return mid;
                 }
-                else if(number < nums[mid])
+                else if (number < nums[mid])
                 {
                     right = mid - 1;
                 }
                 else
                 {
-                    left= mid + 1;
+                    left = mid + 1;
                 }
             }
 
@@ -185,7 +203,7 @@ namespace LeetCode_Easy
             if (stack.Count == 0) { return true; }
             else { return false; }
         } // 20
-            
+
         public int RemoveDuplicates(int[] nums)
         {
             if (nums.Length == 0) return 0;
@@ -332,7 +350,7 @@ namespace LeetCode_Easy
             int first = 0;
             int last = x;
 
-            while(first <= last)
+            while (first <= last)
             {
                 long mid = (first + last) / 2;
 
@@ -349,24 +367,24 @@ namespace LeetCode_Easy
                 else
                 {
                     first = (int)(mid + 1);
-                }   
+                }
             }
 
             return last;
         }
 
         public int ClimbStairs(int n) // 70
-        {            
+        {
             int a = 1, b = 1;
-            
-            while(n > 0)
+
+            while (n > 0)
             {
                 b += a;
                 a = b - a;
                 n--;
             }
             return a;
-            
+
             //   2
             // 1 1            2
             // 2
@@ -411,7 +429,7 @@ namespace LeetCode_Easy
 
             //Result: 5, 8, 13 - Fibonacci
         }
-      
+
         public void Merge(int[] nums1, int m, int[] nums2, int n) // 88
         {
             //Merge(new int[6] { 1, 2, 3, 0, 0, 0 }, 3, new int[3] { 2, 5, 6 }, 3);
@@ -464,7 +482,7 @@ namespace LeetCode_Easy
 
             return ans;
         } //1929. Concatenation of Array     
-        
+
         public int[] BuildArray(int[] nums) // 1920. Build Array from Permutation
         {
             int[] ans = new int[nums.Length];
@@ -488,7 +506,7 @@ namespace LeetCode_Easy
                 else
                     sb.Append(address[i]);
             }
-           
+
             return sb.ToString();
         }
 
@@ -515,7 +533,7 @@ namespace LeetCode_Easy
             for (int i = 0; i < stones.Length; i++)
             {
                 if (jewels.Contains(stones[i]))
-                        jewelsCount++;                      
+                    jewelsCount++;
             }
 
             return jewelsCount;
@@ -531,7 +549,7 @@ namespace LeetCode_Easy
                 {
                     if (nums[i] == nums[j])
                         result++;
-                }                                         
+                }
             }
             return result;
         }
@@ -552,7 +570,7 @@ namespace LeetCode_Easy
 
                 if (customerWelth > greatestWealth)
                     greatestWealth = customerWelth;
-            }           
+            }
             return greatestWealth;
         }
 
@@ -568,7 +586,7 @@ namespace LeetCode_Easy
                 else if (command[i] != '(' && command[i] != ')')
                     result.Append(command[i]);
             }
-            
+
             return result.ToString();
         }
 
@@ -577,13 +595,13 @@ namespace LeetCode_Easy
             int product = 1;
             int summ = 0;
 
-            while(n > 0)
+            while (n > 0)
             {
                 product *= n % 10;
                 summ += n % 10;
                 n /= 10;
             }
-           
+
             return product - summ;
         }
 
@@ -603,21 +621,21 @@ namespace LeetCode_Easy
                     {
                         string tmp = numstr[i].ToString() + numstr[j];
                         arr.Add(tmp);
-                    }              
+                    }
                 }
             }
-           
+
             foreach (string i in arr)
             {
-                foreach(string j in arr)
+                foreach (string j in arr)
                 {
-                    if(i != j)
+                    if (i != j)
                     {
                         int tmp = int.Parse(i) + int.Parse(j);
 
                         if (tmp < min)
                             min = tmp;
-                    }                   
+                    }
                 }
             }
 
@@ -645,29 +663,29 @@ namespace LeetCode_Easy
         }
 
         public int[][] SortTheStudents(int[][] score, int k)
-        {           
+        {
             return score.OrderByDescending(x => x[k]).ToArray();
         }
 
         public IList<IList<int>> FindMatrix(int[] nums)
-        {           
+        {
             IList<IList<int>> result = new List<IList<int>>();
             var list = nums.ToList();
 
-            while(list.Count > 0)
+            while (list.Count > 0)
             {
-                List<int> tmp = new(); 
+                List<int> tmp = new();
                 foreach (var x in list.ToList())
                 {
                     if (!tmp.Contains(x))
                     {
                         tmp.Add(x);
                         list.Remove(x);
-                    }                       
+                    }
                 }
                 result.Add(tmp);
             }
-        
+
             return result;
         }
 
@@ -713,11 +731,11 @@ namespace LeetCode_Easy
             List<int> result = new();
             for (int i = 0, l = 0; i < nums.Length; i++)
             {
-                if (nums[i] < pivot)               
-                    result.Insert(l++, nums[i]);                           
+                if (nums[i] < pivot)
+                    result.Insert(l++, nums[i]);
                 else if (nums[i] > pivot)
-                    result.Add(nums[i]);                                 
-                else 
+                    result.Add(nums[i]);
+                else
                     result.Insert(l, nums[i]);
             }
             return result.ToArray();
@@ -725,7 +743,7 @@ namespace LeetCode_Easy
 
         public int GarbageCollection(string[] garbage, int[] travel)
         {
-            int result = 0;            
+            int result = 0;
             Dictionary<char, int> lastGarbageHouse = new()
             {
                 { 'M', 0 },
@@ -737,10 +755,10 @@ namespace LeetCode_Easy
             {
                 result += garbage[i].Length;
                 foreach (char g in garbage[i])
-                {                    
+                {
                     lastGarbageHouse[g] = i;
-                }                             
-            }        
+                }
+            }
 
             foreach (int g in lastGarbageHouse.Values)
             {
@@ -763,19 +781,19 @@ namespace LeetCode_Easy
                 arr[i] = (2 * i) + 1;
                 target += arr[i];
             }
-           
+
             int x = arr.Length - 1;
-            int y = 0; 
+            int y = 0;
             target = target / n;
-            
+
             while (x != y)
             {
-                if(arr[x] != target)
+                if (arr[x] != target)
                 {
-                    arr[x]--;                   
+                    arr[x]--;
                     result++;
                 }
-                else if(arr[x] == target)
+                else if (arr[x] == target)
                 {
                     x--;
                 }
@@ -785,10 +803,10 @@ namespace LeetCode_Easy
 
                 if (arr[y] != target)
                 {
-                    arr[y]++;                    
+                    arr[y]++;
                     result++;
                 }
-                else if(arr[y] == target)
+                else if (arr[y] == target)
                 {
                     y++;
                 }
@@ -797,13 +815,13 @@ namespace LeetCode_Easy
             return result / 2;
         }
 
-        public static int NumberOfBeams(string[] bank)
+        public int NumberOfBeams(string[] bank)
         {
             int result = 0;
             int laserCount = 0;
             int laserCountAfter = 0;
             for (int i = 0; i < bank.Length - 1; i++)
-            {               
+            {
                 laserCountAfter = bank[i + 1].Split('1').Count() - 1;
                 int currentLaserCount = bank[i].Split('1').Count() - 1;
 
@@ -811,12 +829,226 @@ namespace LeetCode_Easy
                     laserCount = currentLaserCount;
 
                 if (laserCountAfter != 0)
-                {                   
+                {
                     result += laserCount * laserCountAfter;
-                }                
+                }
             }
 
             return result;
-        }      
+        }
+
+        public int[] RearrangeArray(int[] nums)
+        {
+            List<int> positive = new();
+            List<int> negative = new();
+            int[] result = new int[6];
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] >= 0)
+                    positive.Add(nums[i]);
+                else
+                    negative.Add(nums[i]);
+            }
+
+            for (int i = 0, j = 0; i < positive.Count; j++)
+            {
+                result[i] = positive[j];
+                result[i + 1] = negative[j];
+                i += 2;
+            }
+
+            return result;
+        }
+
+        public int[] FindThePrefixCommonArray(int[] A, int[] B)
+        {
+            int[] result = new int[B.Length];
+            HashSet<int> set = new();
+
+            for (int i = 0; i < B.Length; i++)
+            {
+                int count = 0;
+                set.Add(A[i]);
+                for (int j = 0; j <= i; j++)
+                {
+                    if (set.Contains(B[j]))
+                        count++;
+                }
+                result[i] = count;
+            }
+
+            return result;
+        }
+
+        public IList<int> PartitionLabels(string s)
+        {
+            Dictionary<char, int> dict = new();
+            IList<int> result = new List<int>();
+
+            for (int i = 0; i < s.Length; i++)
+                dict[s[i]] = i;
+
+            int prev = -1;
+            int max = 0;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                max = Math.Max(max, dict[s[i]]);
+
+                if (max == i)
+                {
+                    result.Add(max - prev);
+                    prev = max;
+                }
+            }
+
+            return result;
+        }
+
+        public int MinPairSum(int[] nums)
+        {
+            Array.Sort(nums);
+            int max = 0;
+
+            for (int i = 0; i < nums.Length / 2; i++)
+            {
+                max = Math.Max(nums[i] + nums[nums.Length - 1 - i], max);
+            }
+
+            return 0;
+        }
+
+        public int WateringPlants(int[] plants, int capacity)
+        {
+            int steps = 0;
+            int currentCapacity = capacity;
+
+            for (int i = 0; i < plants.Length; i++)
+            {
+                if (currentCapacity >= plants[i])
+                {
+                    steps++;
+                    currentCapacity = currentCapacity - plants[i];
+                }
+                else
+                {
+                    steps += i * 2 + 1;
+                    currentCapacity = capacity - plants[i];
+                }
+            }
+
+            return steps;
+        }
+
+        public int MaxCoins(int[] piles)
+        {
+            Array.Sort(piles);
+            int max = 0;
+
+            for (int i = piles.Length / 3; i < piles.Length; i += 2)
+                max += piles[i];
+
+            return max;
+        }
+
+        public int CountDistinctIntegers(int[] nums)
+        {
+            HashSet<int> set = new(nums);
+
+            for (int i = 0; i < nums.Length; i++)
+                set.Add(ReverseInt(nums[i]));
+
+            return set.Count;
+        }
+        private int ReverseInt(int nums)
+        {
+            int result = 0;
+
+            while (nums > 0)
+            {
+                result = nums % 10 + result * 10;
+                nums /= 10;
+            }
+
+            return result;
+        }
+
+        public int TriangularSum(int[] nums)
+        {
+            List<int> current = nums.ToList();
+
+            while (current.Count > 1)
+            {
+                for (int i = 0; i < current.Count - 1; i++)
+                {
+                    current[i] = (current[i] + current[i + 1]) % 10;
+                }
+                current.RemoveAt(current.Count - 1);
+            }
+
+            return current[0];
+        }
+
+        public int FindTheWinner(int n, int k)
+        {
+            LinkedList<int> list = new LinkedList<int>();         
+            
+            for (int i = 1; i <= n; i++)
+                list.AddLast(i);
+
+            LinkedListNode<int> current = list.First;
+
+            while (list.Count > 1)
+            {
+                int tmp = k - 1;
+                while (tmp > 0)
+                {
+                    if(current == list.Last)
+                    {
+                        current = list.First;
+                        tmp--;
+
+                        if (tmp <= 0)
+                            break;
+                    }
+                        
+                    current = current.Next;
+                    tmp--;
+                }
+                LinkedListNode<int> save;
+
+                if (current == list.Last)               
+                     save = list.First;
+                else
+                    save = current.Next;
+
+                list.Remove(current);
+                current = save;
+            }
+           
+            return list.First.Value;
+        }
+
+        public static int MinSteps(string s, string t)
+        {
+            Dictionary<char, int> dictator = new();
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!dictator.ContainsKey(s[i]))
+                    dictator.Add(s[i], 1);
+                else
+                    dictator[s[i]]++;
+            }
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                if (dictator.ContainsKey(t[i]))
+                    dictator[t[i]]--;
+            }
+
+            return dictator.Where(x => x.Value > 0).Sum(x => x.Value);
+        }
     }
 }

@@ -23,19 +23,19 @@ namespace LeetCode_Easy
     public class TreeTask
     {
         int _sum = 0;      
-        static List<int> result = new List<int>();
-
-        public IList<int> InorderTraversal(TreeNode root)
+             
+        public IList<int> InorderTraversal(TreeNode root, List<int> arr)
         {
             if (root == null)
-                return result;
+                return arr;
+            else
+                arr.Add(root.val);
 
-            InorderTraversal(root.left);
-            result.Add(root.val);
-            InorderTraversal(root.right);
+            InorderTraversal(root.left, arr);
+            InorderTraversal(root.right, arr);
 
-            return result;
-        } // 94
+            return arr;
+        } 
 
         public bool IsSameTree(TreeNode p, TreeNode q)
         {
@@ -165,5 +165,74 @@ namespace LeetCode_Easy
             return   GetTargetCopy(original, cloned.right, target);
           
         }
+
+        public TreeNode BstFromPreorder(int[] preorder)
+        {
+            TreeNode root = new(preorder[0]);
+
+            for (int i = 1; i < preorder.Length; i++)
+            {
+                root = addIterative(root, preorder[i]);
+            }
+
+            return root;
+        }
+        private TreeNode AddNode(TreeNode root, int number)
+        {
+            if (root == null)
+                return new TreeNode(number);
+
+            if (number < root.val)
+                root.left = AddNode(root.left, number);
+            else
+                root.right = AddNode(root.right, number);
+
+            return root;
+        }
+        public TreeNode addIterative(TreeNode root, int value)
+        {
+       
+            if (root == null)
+            {
+                return new TreeNode(value);
+            }
+
+            TreeNode current = root;
+
+            while (true)
+            {
+                if (value < current.val)
+                {
+                    if (current.left == null)
+                    {
+                        current.left = new TreeNode(value);
+                        break;
+                    }
+                    else
+                    {
+                        current = current.left;
+                    }
+                }
+                else if (value > current.val)
+                {
+                    if (current.right == null)
+                    {
+                        current.right = new TreeNode(value);
+                        break;
+                    }
+                    else
+                    {
+                        current = current.right;
+                    }
+                }
+                else
+                {
+                    // Value already exists in the tree, do nothing or handle as desired
+                    break;
+                }
+            }
+
+            return root;
+        }      
     }
 }
