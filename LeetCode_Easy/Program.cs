@@ -70,7 +70,7 @@ namespace LeetCode_Easy
                 }
             };
 
-            var t = MinSteps("leetcode", "practice");
+            var t = ContainsNearbyDuplicate(new[] {1,2,3,1,2,3} , 2);
         }
 
         public int BinarySearch(int[] nums, int number)
@@ -1049,6 +1049,27 @@ namespace LeetCode_Easy
             }
 
             return dictator.Where(x => x.Value > 0).Sum(x => x.Value);
+        }
+
+        public static bool ContainsNearbyDuplicate(int[] nums, int k)//219. Contains Duplicate II
+        {
+            Dictionary<int, int> map = new();
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (map.ContainsKey(nums[i]))
+                {
+                    if (Math.Abs(map[nums[i]] - i) <= k)
+                        return true;
+
+                    map[nums[i]] = i;
+                }
+
+                if (!map.ContainsKey(nums[i]))
+                    map.Add(nums[i], i);
+            }
+
+            return false;
         }
     }
 }
